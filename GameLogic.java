@@ -148,7 +148,6 @@ public class GameLogic{
 
   public int nextMoveWinner(int position){
 
-    System.out.println(position == -1);
     if(position == -1){ // se a checkagem quer ser feita com a board sem ser alterada
       // checkagem horizontal, verificando se o bot tem como ganhar no proximo round
       for(int i = 0; i <= 6; i+=3){
@@ -286,7 +285,7 @@ public class GameLogic{
   }
 
   public int botPlay(){
-    System.out.println(this.board[0] +","+ this.board[1]+","+this.board[2] +","+ this.board[3]+","+this.board[4]+","+this.board[5]+","+this.board[6]+","+this.board[7]+","+this.board[8]);
+    
     if(this.isEasy){ // se for o bot facil
 
       List<Integer> boardDisponibility = new ArrayList<>();
@@ -323,14 +322,20 @@ public class GameLogic{
 
       }else{ // se nao for o primeiro turno
 
-        // se for feita uma abertura onde o player joga em cantos opostos, a melhor prioridade nao deve ser do canto, como seria se o codigo prosseguisse
         if(this.turns == 3){
+          // se for feita uma abertura onde o player joga em cantos opostos, a melhor prioridade nao deve ser do canto, como seria se o codigo prosseguisse
           if(this.board[0] == this.board[8] && this.board[0] == this.gameSymbols[1]){
             this.board[5] = this.gameSymbols[2];
             return 5;
           }else if(this.board[2] == this.board[6] && this.board[2] == this.gameSymbols[1]){
             this.board[3] = this.gameSymbols[2];
             return 3;
+          }
+
+          // jogada onde eh criada uma vitoria forcada caso o algoritimo prossiga
+          if(this.board[5] == this.board[7] && this.board[5] == this.gameSymbols[1]){
+            this.board[8] = this.gameSymbols[2];
+            return 8;
           }
         }
 
@@ -396,7 +401,7 @@ public class GameLogic{
 
         }
       }
-      return 0;
+      return -1;
     }
     
   }

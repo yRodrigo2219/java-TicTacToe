@@ -3,17 +3,40 @@ import java.awt.Font;
 import java.awt.event.*;
 import java.awt.GridLayout;
 import java.awt.Color;
+import javax.swing.border.LineBorder;
 
 public class Screens{
 
   private JFrame mainFrame = new JFrame();
+  // Variaveis de alinhamento da tela
+  private int mainWidth, mainHeight, titleHeight, buttonHeight, buttonSpace, boardSize;
+
+  // Timer para validar a tela a cada 0.5s, impedindo que haja problemas de exibicao por mais de 0.5s
+  private Timer timerFrame = new Timer(500, new ActionListener(){
+  
+    @Override
+    public void actionPerformed(ActionEvent e) {
+      mainFrame.getContentPane().validate();
+    }
+  });
 
   public Screens(int width, int height) {
 
+    this.boardSize = height - 120;
+    this.buttonSpace = height/30;
+    this.buttonHeight = (height/3)*2;
+    this.mainWidth = width;
+    this.mainWidth = width;
+    this.titleHeight = height/3;
+
     this.mainFrame.setSize(width, height);
+    this.mainFrame.setResizable(false);
     this.mainFrame.setVisible(true);
     this.mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     this.mainFrame.setTitle("Tic-Tac-Toe");
+
+    this.timerFrame.setRepeats(true);
+    this.timerFrame.start();
   }
 
   private void resetJFrameComponent(){
@@ -28,15 +51,21 @@ public class Screens{
   public void mainMenuScreen(){
 
     JPanel mainScreenPanel = new JPanel();
-    mainScreenPanel.setSize(this.mainFrame.getWidth(), this.mainFrame.getHeight());
+    mainScreenPanel.setSize(this.mainWidth, this.mainHeight);
     mainScreenPanel.setLayout(null); // para nao atrapalhar ja que o posicionamento esta sendo feito de maneira absoluta
 
-    JLabel gameName = new JLabel("Tic-Tac-Toe");
-    gameName.setBounds(100, 100, 600, 100);
-    gameName.setFont(new Font("Serif", Font.PLAIN, 98));
+    JLabel gameName = new JLabel("Tic-Tac-Toe", SwingConstants.CENTER);
+    gameName.setVerticalAlignment(SwingConstants.CENTER);
+    gameName.setSize(this.mainWidth, this.titleHeight);
+    gameName.setFont(new Font("Serif", Font.BOLD, this.titleHeight/2));
+
+    Font buttonFont = new Font("Serif", Font.PLAIN, this.buttonHeight/12);
+    LineBorder buttonBorder = new LineBorder(Color.BLACK, 2, true);
 
     JButton btnPlayerVsPlayer = new JButton("Jogador Vs Jogador");
-    btnPlayerVsPlayer.setBounds(200, 230, 400, 70);
+    btnPlayerVsPlayer.setBounds(this.mainWidth/4, this.titleHeight, this.mainWidth/2, this.buttonHeight/4);
+    btnPlayerVsPlayer.setFont(buttonFont);
+    btnPlayerVsPlayer.setBorder(buttonBorder);
     btnPlayerVsPlayer.addActionListener(new ActionListener(){
     
       @Override
@@ -47,7 +76,9 @@ public class Screens{
     });
 
     JButton btnPlayerVsComputer = new JButton("Jogador Vs Computador");
-    btnPlayerVsComputer.setBounds(200, 330, 400, 70);
+    btnPlayerVsComputer.setBounds(this.mainWidth/4, this.titleHeight + this.buttonHeight/4 + this.buttonSpace, this.mainWidth/2, this.buttonHeight/4);
+    btnPlayerVsComputer.setFont(buttonFont);
+    btnPlayerVsComputer.setBorder(buttonBorder);
     btnPlayerVsComputer.addActionListener(new ActionListener(){
     
       @Override
@@ -58,7 +89,9 @@ public class Screens{
     });
 
     JButton btnExitGame = new JButton("Sair do Jogo");
-    btnExitGame.setBounds(200, 460, 400, 70);
+    btnExitGame.setBounds(this.mainWidth/4, this.titleHeight + this.buttonHeight/2 + this.buttonSpace*3, this.mainWidth/2, this.buttonHeight/4);
+    btnExitGame.setFont(buttonFont);
+    btnExitGame.setBorder(buttonBorder);
     btnExitGame.addActionListener(new ActionListener(){
 
       @Override
@@ -69,6 +102,7 @@ public class Screens{
     });
 
     mainScreenPanel.add(gameName);
+
     mainScreenPanel.add(btnPlayerVsPlayer);
     mainScreenPanel.add(btnPlayerVsComputer);
     mainScreenPanel.add(btnExitGame);
@@ -95,7 +129,7 @@ public class Screens{
     if(action == 0){ // se action eh "Facil"
 
       gameScreen(false, true);
-    }else{ // se nao ela eh "Dificil"
+    }else if(action == 1){ // se nao ela eh "Dificil"
 
       gameScreen(false, false);
     }
@@ -106,31 +140,25 @@ public class Screens{
     GameLogic gameLogic = new GameLogic(isPlayerVsPlayer, isEasy);
 
     JPanel gameScreenPanel = new JPanel();
-    gameScreenPanel.setSize(this.mainFrame.getWidth(), this.mainFrame.getHeight());
+    gameScreenPanel.setSize(this.mainWidth, this.mainHeight);
     gameScreenPanel.setLayout(null); // para nao atrapalhar ja que o posicionamento esta sendo feito de maneira absoluta
 
     JPanel gameBoardPanel = new JPanel();
-    int boardSize = 0;
-    if(this.mainFrame.getWidth() > this.mainFrame.getHeight()){ // o pega a menor das proporcoes da tela para fazer o tabuleiro e reserva 80px para o restante da interface
-      boardSize = this.mainFrame.getHeight()- 120;
-    }else{
-      boardSize = this.mainFrame.getWidth()- 120;
-    }
     gameBoardPanel.setLayout(new GridLayout(3,3)); // tabuleiro
-    int xToMakeItAligned = (this.mainFrame.getWidth() - boardSize)/2; // calcula qual é o alinhamento necessario no eixo X
-    gameBoardPanel.setBounds(xToMakeItAligned, 80, boardSize, boardSize);
+    gameBoardPanel.setBounds((this.mainWidth - this.boardSize)/2, 80, this.boardSize, this.boardSize);
 
     gameScreenPanel.add(gameBoardPanel);
 
-    JLabel labelX = new JLabel("X");
-    JLabel labelO = new JLabel("O");
+    JLabel labelX = new JLabel("X", SwingConstants.CENTER);
+    JLabel labelO = new JLabel("O", SwingConstants.CENTER);
 
     labelX.setBounds(30, 10, 40, 40);
     labelX.setFont(new Font("Serif", Font.PLAIN, 34));
-    labelO.setBounds(740, 10, 40, 40);
+    labelO.setBounds(this.mainWidth - 110, 10, 40, 40);
     labelO.setFont(new Font("Serif", Font.PLAIN, 34));
 
-    gameScreenPanel.add(labelX);gameScreenPanel.add(labelO);
+    gameScreenPanel.add(labelX);
+    gameScreenPanel.add(labelO);
 
     JLabel labelWinsX = new JLabel("Vitorias: ");
     JLabel xWins = new JLabel(Integer.toString(gameLogic.getXWins()));
@@ -141,22 +169,26 @@ public class Screens{
     labelWinsX.setFont(new Font("Serif", Font.PLAIN, 20));
     xWins.setBounds(95, 40, 40, 40);
     xWins.setFont(new Font("Serif", Font.PLAIN, 20));
-    labelWinsO.setBounds(680, 40, 100, 40);
+    labelWinsO.setBounds(this.mainWidth - 140, 40, 100, 40);
     labelWinsO.setFont(new Font("Serif", Font.PLAIN, 20));
-    oWins.setBounds(770, 40, 40, 40);
+    oWins.setBounds(this.mainWidth - 50, 40, 40, 40);
     oWins.setFont(new Font("Serif", Font.PLAIN, 20));
 
-    gameScreenPanel.add(labelWinsX);gameScreenPanel.add(xWins);gameScreenPanel.add(labelWinsO);gameScreenPanel.add(oWins);
+    gameScreenPanel.add(labelWinsX);
+    gameScreenPanel.add(xWins);
+    gameScreenPanel.add(labelWinsO);
+    gameScreenPanel.add(oWins);
 
-    JLabel labelTies = new JLabel("Empates: ");
-    JLabel ties = new JLabel(Integer.toString(gameLogic.getTies()));
+    JLabel labelTies = new JLabel("Empates: ", SwingConstants.CENTER);
+    JLabel ties = new JLabel(Integer.toString(gameLogic.getTies()), SwingConstants.CENTER);
 
-    labelTies.setBounds(300, 25, 120, 40);
+    labelTies.setBounds(this.mainWidth/2-100, 25, 120, 40);
     labelTies.setFont(new Font("Serif", Font.PLAIN, 20));
-    ties.setBounds(405, 25, 40, 40);
+    ties.setBounds(this.mainWidth/2, 25, 40, 40);
     ties.setFont(new Font("Serif", Font.PLAIN, 20));
 
-    gameScreenPanel.add(labelTies);gameScreenPanel.add(ties);
+    gameScreenPanel.add(labelTies);
+    gameScreenPanel.add(ties);
 
     JButton boardCells[] = new JButton[9];
 
@@ -173,6 +205,7 @@ public class Screens{
         @Override
         public void actionPerformed(ActionEvent e) {
           boolean isGameRestarting = false;
+          
           for(int i = 0; i < 9; i++){
             if(e.getSource() == boardCells[i]){
               boardCells[i].setText(gameLogic.play(i)); // seta o valor da jogada no botao
@@ -246,6 +279,9 @@ public class Screens{
               if(!gameLogic.getIsPlayerVsPlayer() && !isGameRestarting){
                 // escreve a jogada do bot
                 int botPlay = gameLogic.botPlay();
+                if(botPlay == -1){ // -1 eh retornado quando o tabuleiro esta cheio
+                  return;
+                }
                 boardCells[botPlay].setText(gameLogic.getGameSymbols()[2]);
                 boardCells[botPlay].setEnabled(false);
 
@@ -324,13 +360,13 @@ public class Screens{
     }
 
     JButton btnMenu = new JButton("Menu");
-    btnMenu.setBounds(700, 520, 80, 40);
+    btnMenu.setBounds(this.mainFrame.getWidth()-100, this.mainFrame.getHeight()-80, 80, 40);
     btnMenu.addActionListener(new ActionListener(){
     
       @Override
       public void actionPerformed(ActionEvent e) {
 
-        if(menuPopUp() == 0){  // reinicia o tabuleiro
+        if(menuPopUp() == 0){  // se foi clicakado em novo jogo, reinicia o tabuleiro, permanecem as vitorias
           
           gameLogic.newGame();
           for(int i = 0; i < 9; i++){
@@ -346,19 +382,6 @@ public class Screens{
     });
 
     gameScreenPanel.add(btnMenu);
-
-    if(isPlayerVsPlayer){
-
-      
-    }else{
-      if(isEasy){
-
-
-      }else{
-
-
-      }
-    }
 
     this.mainFrame.add(gameScreenPanel);
 
