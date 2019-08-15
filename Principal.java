@@ -5,7 +5,7 @@ import java.awt.Font;
 import javax.swing.*;
 import java.awt.EventQueue;
 
-public class main{
+public class Principal{
   public static void main(String[] args){
 
     String screenSizes[] = { "896x504", "1280x720" , "1408x792", "1664x936", "1920x1080" }; // 16:9
