@@ -1,3 +1,15 @@
+/* ***************************************************************
+* Autor: Rodrigo Santos do Carmo
+* Matricula: 
+* Inicio: 11/08/2019
+* Ultima alteracao: 15/08/2019
+* Nome: Tic-Tac-Toe
+* Funcao: Um jogo da velha com diferentes modos de jogo, onde eh possi-
+          vel jogar contra outro player (offline) ou contra o computador
+          em duas dificuldades, facil e dificil, onde o facil joga de ma-
+          neira random e o dificil nao perde
+*************************************************************** */
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.Color;
@@ -6,6 +18,12 @@ import javax.swing.*;
 import java.awt.EventQueue;
 
 public class Principal{
+  /* ***************************************************************
+  * Metodo: main
+  * Funcao: Ponto inicial do programa, cria a tela de selecao de resolucao
+  * Parametros: 
+  * Retorno: 
+  *************************************************************** */
   public static void main(String[] args){
 
     String screenSizes[] = { "896x504", "1280x720" , "1408x792", "1664x936", "1920x1080" }; // 16:9

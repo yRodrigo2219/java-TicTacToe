@@ -1,3 +1,15 @@
+/* ***************************************************************
+* Autor: Rodrigo Santos do Carmo
+* Matricula: 
+* Inicio: 11/08/2019
+* Ultima alteracao: 15/08/2019
+* Nome: Tic-Tac-Toe
+* Funcao: Um jogo da velha com diferentes modos de jogo, onde eh possi-
+          vel jogar contra outro player (offline) ou contra o computador
+          em duas dificuldades, facil e dificil, onde o facil joga de ma-
+          neira random e o dificil nao perde
+*************************************************************** */
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -20,14 +32,35 @@ public class GameLogic{
     this.isEasy = isEasy;
   }
 
+  /* ***************************************************************
+  * Metodo: getIsPlayerVsPlayer
+  * Funcao: retornar se o jogo se trata de um jogo Jogador vs Jogador
+            ou nao
+  * Parametros: 
+  * Retorno: retorna se o jogo se trata de um jogo Jogador vs Jogador
+            ou nao
+  *************************************************************** */
   public boolean getIsPlayerVsPlayer(){
     return this.isPlayerVsPlayer;
   }
 
+  /* ***************************************************************
+  * Metodo: getIsEasy
+  * Funcao: retornar se o bot esta em dificuldade facil ou nao
+  * Parametros: 
+  * Retorno: retorna se o bot esta em dificuldade facil ou nao
+  *************************************************************** */
   public boolean getIsEasy(){
     return this.isEasy;
   }
 
+  /* ***************************************************************
+  * Metodo: newGame
+  * Funcao: reinicia os valores para que se inicie um novo jogo, nao
+            reinicia placar
+  * Parametros: 
+  * Retorno:
+  *************************************************************** */
   public void newGame(){
 
     this.turns = 0;
@@ -37,31 +70,67 @@ public class GameLogic{
     }
   }
 
+  /* ***************************************************************
+  * Metodo: getXWins
+  * Funcao: retornar a quantidade de vitorias que o jogador 'X' tem
+  * Parametros: 
+  * Retorno:  retorna a quantidade de vitorias que o jogador 'X' tem
+  *************************************************************** */
   public int getXWins(){
 
     return this.xWins;
   }
 
+  /* ***************************************************************
+  * Metodo: getTurns
+  * Funcao: retornar a quantidade de turnos que ja se passaram
+  * Parametros: 
+  * Retorno:  retorna a quantidade de turnos que ja se passaram
+  *************************************************************** */
   public int getTurns(){
     
     return this.turns;
   }
 
+  /* ***************************************************************
+  * Metodo: getOWins
+  * Funcao: retornar a quantidade de vitorias que o jogador 'O' tem
+  * Parametros: 
+  * Retorno:  retorna a quantidade de vitorias que o jogador 'O' tem
+  *************************************************************** */
   public int getOWins(){
 
     return this.oWins;
   }
 
+  /* ***************************************************************
+  * Metodo: getTies
+  * Funcao: retornar a quantidade de empates
+  * Parametros: 
+  * Retorno:  retorna a quantidade de empates
+  *************************************************************** */
   public int getTies(){
 
     return this.ties;
   }
 
+  /* ***************************************************************
+  * Metodo: getWinnerSequence
+  * Funcao: retornar a sequencia vencedora
+  * Parametros: 
+  * Retorno:  retorna a sequencia vencedora
+  *************************************************************** */
   public int[] getWinnerSequence(){
 
     return this.winnerSequence;
   }
 
+  /* ***************************************************************
+  * Metodo: addWins
+  * Funcao: adicionar uma vitoria para o vencedor
+  * Parametros: se o jogador vencedor se trata de 'X' ou nao
+  * Retorno: 
+  *************************************************************** */
   public void addWins(boolean isX){
 
     if(isX){
@@ -73,16 +142,38 @@ public class GameLogic{
     }
   }
 
+  /* ***************************************************************
+  * Metodo: addTie
+  * Funcao: adicionar um empate
+  * Parametros: 
+  * Retorno: 
+  *************************************************************** */
   public void addTie(){
 
     this.ties = this.ties + 1;
   }
 
+  /* ***************************************************************
+  * Metodo: getGameSymbols
+  * Funcao: retornar o array de simbolos que estao sendo usados no jogo
+            sendo o index 0, o simbolo vazio, index 1, o simbolo do X
+            (o primeiro jogador) e o index 2, o simbolo do O (o segun-
+            do jogador)
+  * Parametros: 
+  * Retorno: retorna o array de simbolos que estao sendo usados no jogo
+  *************************************************************** */
   public String[] getGameSymbols(){
 
     return this.gameSymbols;
   }
 
+  /* ***************************************************************
+  * Metodo: whoIsPlaying
+  * Funcao: retornar quem esta jogando nesse turno
+  * Parametros: 
+  * Retorno: retorna quem esta jogando nesse turno, 1 caso seja o X
+            (jogador 1) e 2 caso seja o O (jogador 2)
+  *************************************************************** */
   public int whoIsPlaying(){
     
     if(this.turns%2 == 0){ // se par, player1 esta jogando
@@ -95,6 +186,12 @@ public class GameLogic{
 
   }
 
+  /* ***************************************************************
+  * Metodo: isThereAnyWinner
+  * Funcao: verificar se ha algum vencedor
+  * Parametros: 
+  * Retorno: retorna o vencedor caso haja, se nao retorna -1
+  *************************************************************** */
   public int isThereAnyWinner(){
 
     // checkagem horizontal
@@ -138,6 +235,12 @@ public class GameLogic{
     return -1;
   }
 
+  /* ***************************************************************
+  * Metodo: play
+  * Funcao: executa a jogada
+  * Parametros: 
+  * Retorno: retorna o simbolo da jogada
+  *************************************************************** */
   public String play(int i){ // 'i' eh o indice do array de botoes
 
     int player = whoIsPlaying();
@@ -146,6 +249,17 @@ public class GameLogic{
     return board[i];
   }
 
+  /* ***************************************************************
+  * Metodo: nextMoveWinner
+  * Funcao: checka se vai haver um vencedor na proxima jogada, quando
+            passada a posicao, checka se existe vencedor em duas jogadas,
+            primeiro simulando a jogada passada
+  * Parametros: posicao para simular a proxima jogada
+  * Retorno: retorna a posicao que vai lhe fazer ganhar ou a posicao que vai
+            impedir a vitoria de seu oponente, ou ainda, se for passada a posicao
+            como parametro, retorna onde vai poder existir sua vitoria. -1 caso
+            ninguem possa ganhar
+  *************************************************************** */
   public int nextMoveWinner(int position){
 
     if(position == -1){ // se a checkagem quer ser feita com a board sem ser alterada
@@ -284,6 +398,12 @@ public class GameLogic{
     
   }
 
+  /* ***************************************************************
+  * Metodo: botPlay
+  * Funcao: executa a jogada do bot
+  * Parametros: 
+  * Retorno: retorna a posicao jogada pelo bot
+  *************************************************************** */
   public int botPlay(){
     
     if(this.isEasy){ // se for o bot facil

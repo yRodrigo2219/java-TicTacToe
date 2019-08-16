@@ -1,3 +1,15 @@
+/* ***************************************************************
+* Autor: Rodrigo Santos do Carmo
+* Matricula: 
+* Inicio: 11/08/2019
+* Ultima alteracao: 15/08/2019
+* Nome: Tic-Tac-Toe
+* Funcao: Um jogo da velha com diferentes modos de jogo, onde eh possi-
+          vel jogar contra outro player (offline) ou contra o computador
+          em duas dificuldades, facil e dificil, onde o facil joga de ma-
+          neira random e o dificil nao perde
+*************************************************************** */
+
 import javax.swing.*;
 import java.awt.Font;
 import java.awt.event.*;
@@ -39,6 +51,14 @@ public class Screens{
     this.timerFrame.start();
   }
 
+  
+  /* ***************************************************************
+  * Metodo: resetJFrameComponent
+  * Funcao: valida a troca de pagina, deve ser chamado apos a criacao da
+            nova pagina para se ter uma navegacao em stack
+  * Parametros: 
+  * Retorno: 
+  *************************************************************** */
   private void resetJFrameComponent(){
 
     System.out.println(this.mainFrame.getContentPane().getComponentCount());
@@ -47,7 +67,14 @@ public class Screens{
       this.mainFrame.getContentPane().validate();
     }
   }
-
+  
+  /* ***************************************************************
+  * Metodo: mainMenuScreen
+  * Funcao: cria a tela de menu principal, onde se pode selecionar o
+            modo de jogo
+  * Parametros: 
+  * Retorno: 
+  *************************************************************** */
   public void mainMenuScreen(){
 
     JPanel mainScreenPanel = new JPanel();
@@ -112,6 +139,12 @@ public class Screens{
     resetJFrameComponent();
   }
 
+  /* ***************************************************************
+  * Metodo: chooseComputerDifficultyPopUp
+  * Funcao: popup para selecao da dificuldade do computador
+  * Parametros: 
+  * Retorno: 
+  *************************************************************** */
   private void chooseComputerDifficultyPopUp(){
 
     Object[] options = {"Facil",
@@ -135,6 +168,13 @@ public class Screens{
     }
   }
 
+  /* ***************************************************************
+  * Metodo: chooseComputerDifficultyPopUp
+  * Funcao: cria a tela de jogo
+  * Parametros: eh passado se o jogo se trata de um modo jogador vs
+                jogador ou um modo jogador vs computador
+  * Retorno: 
+  *************************************************************** */
   public void gameScreen(boolean isPlayerVsPlayer, boolean isEasy){
 
     GameLogic gameLogic = new GameLogic(isPlayerVsPlayer, isEasy);
@@ -389,6 +429,15 @@ public class Screens{
 
   }
 
+  /* ***************************************************************
+  * Metodo: menuPopUp
+  * Funcao: popup de um menu durante o jogo para possivel selecao de
+            se reiniciar a partida atual, sem reiniciar o placar, ou
+            para se voltar ao menu principal
+  * Parametros: 
+  * Retorno: retorna 0 caso se queira reiniciar o jogo, -1 por padrao
+              nada acontece
+  *************************************************************** */
   private int menuPopUp(){
 
     Object[] options = {"Novo Jogo",
@@ -412,6 +461,14 @@ public class Screens{
     return -1;
   }
 
+  /* ***************************************************************
+  * Metodo: tiePopUp
+  * Funcao: popup que aparece caso haja empate, dando opcoes de se
+            criar um novo jogo ou voltar ao menu principal
+  * Parametros: 
+  * Retorno: retorna 0 caso se queira reiniciar o jogo, -1 por padrao
+              nada acontece
+  *************************************************************** */
   private int tiePopUp(){
     Object[] options = {"Novo Jogo",
       "Sair para o Menu"};
@@ -434,6 +491,14 @@ public class Screens{
     return -1;
   }
 
+  /* ***************************************************************
+  * Metodo: winnerPopUp
+  * Funcao: popup que aparece caso haja um vencedor, dando opcoes de
+            se criar um novo jogo ou voltar ao menu principal
+  * Parametros: 
+  * Retorno: retorna 0 caso se queira reiniciar o jogo, -1 por padrao
+              nada acontece
+  *************************************************************** */
   private int winnerPopUp(String winner){
     Object[] options = {"Novo Jogo",
       "Sair para o Menu"};
